@@ -1,0 +1,105 @@
+body {
+    background-color: #E4D6A7;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.main-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 32px;
+    width: 100vw;
+    height: 100vh;
+    color: #426A5A;
+}
+
+.vocab-field, .answer-area {
+    display: flex;
+    height: 40%;
+    align-items: center;
+}
+
+.label-field {
+    display: flex;
+    font-size: 22px;
+    align-items: center;
+}
+
+.foot-container {
+    display: flex;
+    height: 10%;
+}
+
+.button-peek-answer {
+    font-size: 25px;
+    width: 40px;
+    height: 40px;
+    border-style: none;
+    border-radius: 20px;
+    background-color: indianred;
+    margin-left: 5px;
+}
+
+input {
+    font-size: 20px;
+    height: 40px;
+    color: #E4D6A7;
+    background-color: #3C2416;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    text-align: center;
+}
+
+.selection-container {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    background-color: indianred;
+    gap: 10px;
+}
+
+select {
+    width: 15%;
+    height: 60%;
+    color: #E4D6A7;
+    background-color: #3C2416;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+}
+
+/* input false animation */
+@keyframes shake {
+    0% {
+        margin-left: 0rem;
+    }
+
+    25% {
+        margin-left: 0.5rem;
+    }
+
+    75% {
+        margin-left: -0.5rem;
+    }
+
+    100% {
+        margin-left: 0rem;
+    }
+}
+
+.input-invalid {
+    animation: shake 0.2s ease-in-out 0s 2;
+    box-shadow: 0 0 0.6rem #ff0000;
+}

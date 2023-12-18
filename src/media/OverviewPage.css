@@ -1,0 +1,40 @@
+.overview-page {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+}
+
+.grade-section {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 90%;
+    max-width: 700px;
+    min-height: 10%;
+    margin: 15px;
+    padding: 5px;
+    gap: 10px;
+    border-radius: 0px 15px 15px 15px;
+    background-color: indianred;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.header-title {
+    padding: 0px;
+    color: #426A5A;
+    -webkit-text-stroke: 0.1px #ffffff;
+}
+
+.grade-kanji-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
