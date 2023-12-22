@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "../media/SelectionPage.css";
 import LevelContent from "../components/LevelContentComponent";
-import { CustomToggleButton } from "../elements/ToggleButton";
+import { CustomToggleButton, LevelButton, LoginButton } from "../elements/Buttons";
 import LoginModal from "../modals/LoginModal";
 import { useUser } from "../elements/UserProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 function SelectionPage() {
   const totalLevelCount = 60;
@@ -15,7 +17,7 @@ function SelectionPage() {
   
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  const { userId, login, logout } = useUser();
+  const { userId, logout } = useUser();
 
   function handleLevelClicked(index: number) {
     const newGroupClicked = [...levelClicked];
@@ -33,13 +35,13 @@ function SelectionPage() {
     for (let i = (levelPerGroup * group); i < levelPerGroup * (group + 1); i++) {
         levels.push(
           <>
-            <button
+            <LevelButton
               key={i}
-              className="level-group-button"
               onClick={() => handleLevelClicked(i)}
             >
               Level {i + 1}
-            </button>
+              <FontAwesomeIcon style={{paddingLeft: "calc(100% - 180px)"}} icon={levelClicked[i] ? faChevronUp : faChevronDown} />
+            </LevelButton>
             {levelClicked[i] ? <LevelContent key={i + 1} level={i + 1}/> : <div></div>}
           </>
         );
@@ -80,9 +82,9 @@ function SelectionPage() {
     <div className="selection-page">
       <div className="selection-page-header">
         <div className="title">JVL</div>
-        <button className="login-button" onClick={handleLoginAndOut}>
+        <LoginButton onClick={handleLoginAndOut}>
           {userId ? "Logout" : "Login"}
-        </button>
+        </LoginButton>
       </div>
       <div className="groups-container">{renderGroups()}</div>
       {renderLevels(groupClicked)}

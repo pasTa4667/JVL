@@ -7,10 +7,6 @@ body, html {
     padding: 0;
 }
 
-button:hover {
-    cursor: pointer;
-}
-
 .main-page {
     display: flex;
     flex-direction: column;
@@ -37,16 +33,6 @@ button:hover {
 .foot-container {
     display: flex;
     height: 10%;
-}
-
-.button-peek-answer {
-    font-size: 25px;
-    width: 40px;
-    height: 40px;
-    border-style: none;
-    border-radius: 20px;
-    background-color: indianred;
-    margin-left: 5px;
 }
 
 input {

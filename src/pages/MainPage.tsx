@@ -6,6 +6,7 @@ import DataBaseService from "../firebase/database";
 import { KanjiGrades, downGrade, upGrade } from '../utility/types';
 import { useUser } from '../elements/UserProvider';
 import { KanjiData } from '../logic/ReadJson';
+import { PeekButton } from '../elements/Buttons';
 
 function MainPage() {
   const selectionType = 'KanToEn'; // standart type might change
@@ -86,7 +87,7 @@ function MainPage() {
     const { prompt, label } = providerRef!.getNextPrompt();
 
     //finished with the lesson
-    if (prompt.length == 0) {
+    if (prompt.length === 0) {
       navigate("main/overview", {state: { kanjiGradeMap: kanjiGradeMap, correctKanjis: providerRef.getKnownList(), wrongKanjis: providerRef.getNotKnownList() }} );
     }
 
@@ -120,8 +121,7 @@ function MainPage() {
       userId,
       level,
       current.character,
-      KanjiGrades.Unknown,
-      false
+      kanjiGradeMap.get(current)!
     ).catch((error) => {
       console.log(error);
     });
@@ -141,14 +141,14 @@ function MainPage() {
   return (
     <div className="main-page">
       <div className="vocab-field">
-        <header>{currentWord[0]}</header>
+        <header>{currentWord[0] ?? "Nothing Selected"}</header>
       </div>
       <div className="label-field">
         Translate to {label}
       </div>
       <div className="answer-area">
         <input className={inputClassName} type='text' maxLength={30} placeholder={'answer'} value={currentInput} autoFocus={true} onKeyDown={handleKeyDown} onChange={handleInputChange}/>
-        {!isAnswerWrong ? <div/> : <button className="button-peek-answer" onClick={handlePeekAnswer}>?</button>}
+        {!isAnswerWrong ? <div/> : <PeekButton onClick={handlePeekAnswer}>?</PeekButton>}
       </div>
       <div className="foot-container">
       </div>

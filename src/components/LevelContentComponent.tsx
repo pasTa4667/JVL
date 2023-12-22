@@ -9,6 +9,7 @@ import KanjiInfo from "./KanjiInfoComponent";
 import { useUser } from "../elements/UserProvider";
 import { KanjiGrades, KanjiLevelProgress, gradeAsNumber } from "../utility/types";
 import { isReviewTimeReached } from "../utility/utility";
+import { StartButton } from "../elements/Buttons";
 
 interface LevelContentProps {
   key: number;
@@ -102,12 +103,12 @@ function LevelContent(props: LevelContentProps) {
         <LinearProgressWithLabel value={calculateLevelProgress()} />
       </div>
       <div className="start-button-container">
-        <button className="start-button" onClick={handleStartReview}>
+        <StartButton onClick={handleStartReview}>
           Start Review
-        </button>
-        <button className="start-button" onClick={handleStartLevel}>
+        </StartButton>
+        <StartButton onClick={handleStartLevel}>
           Start Level Training
-        </button>
+        </StartButton>
       </div>
       <DisplayKanjis kanjis={kanjis} progress={userLevelProgress} onClick={handleKanjiClick} />
       {selectedKanji ? <KanjiInfo kanji={selectedKanji} progress={userLevelProgress}/> : <></>}

@@ -42,45 +42,11 @@ button:hover {
     transform: translateX(-50%);
 }
 
-.login-button {
-    flex: 0 1 auto;
-    width: 80px;
-    height: 40px;
-    font-size: 16px;
-    color: #1e523d;
-    font-weight: bold;
-    font-family: 'Inter', sans-serif;
-    background-color: aquamarine;
-    border-radius: 15px;
-    border-style: none;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    margin-left: auto;
-    margin-right: 10%;
-}
-
 .groups-container {
     display: flex;
     margin: 5px;
     padding: 5px;
     gap: 5px;
-}
-
-.level-group-button {
-    display: flex;
-    width: calc(100vw - 40px);
-    height: 80px;
-    max-width: 800px;
-    margin: 20px;
-    padding: 0px 0px 0px 50px;
-    align-items: center;
-    background-color: rgb(180, 45, 45);
-    font-size: 30px;
-    font-family: 'Inter', sans-serif;
-    color: #1e523d;
-    -webkit-text-stroke: 0.2px #ffffff;
-    border-radius: 15px;
-    border: none;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* LevelContentComponent */
@@ -99,21 +65,6 @@ button:hover {
 .start-button-container {
     display: flex;
     gap: 5px;
-}
-
-.start-button {
-    width: 50%;
-    height: 60px;
-    max-width: 700px;
-    align-items: center;
-    background-color: aquamarine;
-    font-size: 25px;
-    font-family: 'Inter', sans-serif;
-    color: #1e523d;
-    -webkit-text-stroke: 0.2px #ffffff;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 }
 
 .review-timer {
