@@ -82,7 +82,7 @@ button:hover {
     border-radius: 5px;
     justify-content: center;
     width: 100%;
-    background-color: rgb(247, 226, 200);
+    background-color: #f7e2c8;
     flex-wrap: wrap;
     gap: 10px;
 }

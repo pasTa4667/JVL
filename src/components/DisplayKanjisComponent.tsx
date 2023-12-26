@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { KanjiData } from "../logic/ReadJson";
 import "../media/SelectionPage.css";
-import { GradeProgressBarKanji } from "../elements/ProgressBar";
+import { GradeProgressBarKanji } from "../elements/ProgressBars";
 import { KanjiGrades, KanjiLevelProgress } from "../utility/types";
 
 interface KanjiProps {

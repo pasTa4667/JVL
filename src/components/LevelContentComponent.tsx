@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ReadJson, { KanjiData } from "../logic/ReadJson";
-import { LinearProgressWithLabel } from "../elements/ProgressBar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { LinearProgressWithLabel } from "../elements/ProgressBars";
+import { useNavigate } from "react-router-dom";
 import DataBaseService from '../firebase/database';
 import DisplayKanjis from "./DisplayKanjisComponent";
 import "../media/MainPage.css";
@@ -75,7 +75,12 @@ function LevelContent(props: LevelContentProps) {
   }
 
   function handleStartLevel() {
-    navigate(`/main`, { state: { kanjis } });
+    //to make it easier later on we create a map
+    const kanjiGradeMap = new Map();
+    kanjis.forEach((kanji) => {
+      kanjiGradeMap.set(kanji, KanjiGrades.Unknown);
+    });
+    navigate(`/main`, { state: { kanjiGradeMap: kanjiGradeMap, level: props.level } });
   }
 
   function handleKanjiClick(kanji: KanjiData): void {

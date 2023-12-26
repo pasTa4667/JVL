@@ -86,3 +86,11 @@ export interface KanjiLevelProgress {
     wrongCount?: number;
   };
 }
+
+// All Colors used inside the project
+export const primaryBackgroundColor = '#E4D6A7';
+export const secondaryBackgroundColor = `#f7e2c8`;
+export const primaryTextColor = '#426A5A';
+export const primaryHighlightColor = 'indianred';
+export const secondaryHighlightColor = 'aquamarine';
+export const tertiaryHighlightColor = '#3C2416';

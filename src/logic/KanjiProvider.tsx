@@ -144,7 +144,7 @@ export default class KanjiProvider {
   }
 
   public addCurrentToKanjiList() {
-    if (this.currentKanji) {
+    if (this.currentKanji && !this.kanjiList.includes(this.currentKanji)) {
       this.kanjiList.push(this.currentKanji);
     }
   }
@@ -164,7 +164,7 @@ export default class KanjiProvider {
   }
 
   public addCurrentToNotKnownList() {
-    if (this.currentKanji) {
+    if (this.currentKanji && !this.notKnownKanjiList.includes(this.currentKanji)) {
       this.notKnownKanjiList.push(this.currentKanji);
     }
   }
@@ -201,6 +201,14 @@ export default class KanjiProvider {
 
   public getCurrentAnswer() {
     return this.currentAnswer;
+  }
+
+  public skipAndGetNext() {
+    if(this.currentKanji){
+      this.kanjiList.push(this.currentKanji);
+      return this.getNextPrompt();
+    }
+    return { prompt: [], label: ''};
   }
 
   /**

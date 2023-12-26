@@ -91,15 +91,19 @@ export function LoginButton(props: ButtonProps) {
   return <LoginButtonStyled variant="contained" color="secondary" {...props}/>
 }
 
-//PeekButton
+//PeekButton and NextButton
 const PeekButtonStyled = styled(StandartButtonStyled)(() => ({
+  minWidth: 40,
   width: 40,
   height: 40,
-  fontSize: 25,
-  borderRadius: 20,
-  marginLeft: 5,
+  fontSize: 23,
+  borderRadius: 30,
 }));
 
 export function PeekButton(props: ButtonProps) {
-  return <PeekButtonStyled variant="contained" color="inherit" {...props}/>
+  return <PeekButtonStyled sx={{ justifySelf: 'right' }} variant="contained" color="inherit" {...props}/>
+}
+
+export function NextButton(props: ButtonProps) {
+  return <PeekButtonStyled sx={{ justifySelf: 'left' }} variant="contained" color="inherit" {...props}/>
 }
