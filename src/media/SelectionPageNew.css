@@ -1,0 +1,191 @@
+body {
+    background-color: #E4D6A7;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+/* SelectionPage */
+
+.selection-page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 40px;
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    color: #426A5A;
+    overflow: hidden;
+    gap: 10px;
+    margin: 20px;
+}
+
+.side-panel {
+    height: 100%;
+    width: 20%;
+    background-color: indianred;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.main-panels {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+    gap: 10px;
+}
+
+.overview-panel, .level-panel {
+    display: flex;
+    height: 50%;
+    width: 100%;
+    background-color: indianred;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+/* OLD STUFF */
+
+.selection-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    width: 100%;
+    padding: 40px 20px 40px 20px;
+}
+
+.title {
+    flex: 0 1 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.groups-container {
+    display: flex;
+    margin: 5px;
+    padding: 5px;
+    gap: 5px;
+}
+
+/* LevelContentComponent */
+
+.level-content-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 80%;
+    max-width: 700px;
+    flex-wrap: wrap;
+    position: relative;
+    gap: 20px;
+}
+
+.start-button-container {
+    display: flex;
+    gap: 5px;
+}
+
+.review-timer {
+    display: flex;
+    justify-items: flex-end;
+    flex: auto;
+    font-size: 25px;
+}
+
+/* DisplayKanjiComponent*/
+
+.kanji-container {
+    display: flex;
+    padding: 30px 10px 15px 10px;
+    border-radius: 5px;
+    justify-content: center;
+    width: 100%;
+    background-color: #f7e2c8;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.kanji {
+    background-color: aquamarine;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 30px;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.kanji.clicked {
+    background-color: #1e523d;
+    color: aquamarine;
+}
+
+/* KanjiInfoComponent */
+
+.kanji-info-container {
+    display: flex;
+    height: auto;
+    padding: 0px 10px 0px 10px;
+    border-radius: 0px 0px 5px 5px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: rgb(247, 226, 200);
+    gap: 10px;
+}
+
+.info-description {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+}
+
+.info-content {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    flex-direction: column;
+}
+
+.info-header {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 40px;
+    border-radius: 5px 5px 0px 0px;
+    background-color: aquamarine;
+}
+
+.info-button {
+    background: none;
+    border: none;
+    color: #1e523d;
+    font-size: 20px;
+    padding: 0px 15px;
+}
+
+.info-button:hover {
+    cursor: pointer;
+    border: none;
+    background-color: rgb(247, 226, 200);
+}
+
+.info-button:active {
+    border: none;
+    background-color: rgb(247, 226, 200);
+}
+ 
+.info-button.active {
+    border: none;
+    background-color: rgb(247, 226, 200);
+}
