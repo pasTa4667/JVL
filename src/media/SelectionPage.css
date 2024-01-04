@@ -1,4 +1,4 @@
-body {
+/* body {
     background-color: #E4D6A7;
 }
 
@@ -14,7 +14,7 @@ button:hover {
 
 /* SelectionPage */
 
-.selection-page {
+/* .selection-page {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,11 +47,11 @@ button:hover {
     margin: 5px;
     padding: 5px;
     gap: 5px;
-}
+} */
 
 /* LevelContentComponent */
 
-.level-content-container {
+/* .level-content-container {
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -72,11 +72,11 @@ button:hover {
     justify-items: flex-end;
     flex: auto;
     font-size: 25px;
-}
+} */
 
 /* DisplayKanjiComponent*/
 
-.kanji-container {
+/* .kanji-container {
     display: flex;
     padding: 30px 10px 15px 10px;
     border-radius: 5px;
@@ -101,11 +101,11 @@ button:hover {
 .kanji.clicked {
     background-color: #1e523d;
     color: aquamarine;
-}
+}  */
 
 /* KanjiInfoComponent */
 
-.kanji-info-container {
+/* .kanji-info-container {
     display: flex;
     height: auto;
     padding: 0px 10px 0px 10px;
@@ -160,4 +160,4 @@ button:hover {
 .info-button.active {
     border: none;
     background-color: rgb(247, 226, 200);
-}
+} */

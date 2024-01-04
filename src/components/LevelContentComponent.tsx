@@ -12,20 +12,18 @@ import { isReviewTimeReached } from "../utility/utility";
 import { StartButton } from "../elements/Buttons";
 
 interface LevelContentProps {
-  key: number;
   level: number;
+  userLevelProgress: KanjiLevelProgress | null;
 }
-
 
 function LevelContent(props: LevelContentProps) {
   const [kanjis, setKanjis] = useState<KanjiData[]>([]);
-  const [userLevelProgress, setUserProgress] = useState<KanjiLevelProgress>();
   const [selectedKanji, setSelectedKanji] = useState<KanjiData | null>(null);
   const navigate = useNavigate();
 
   const { userId } = useUser();
   
-  async function fetchData(level: number, shuffle: boolean) {
+  async function fetchKanji(level: number, shuffle: boolean) {
     try {
       const kanjiData = await ReadJson.getKanjiLevel(level, shuffle);
       if (kanjiData.length > 0) {
@@ -38,27 +36,27 @@ function LevelContent(props: LevelContentProps) {
   }
   
   useEffect(() => {
-    fetchData(props.level, false);
+    fetchKanji(props.level, false);
   }, [props.level]);
 
-  useEffect(() => {
-    if(!userId) return;
-    const fetchData = async () => {
-      try {
-        const userLevelData = await DataBaseService.getUserLevelProgress(
-          userId,
-          props.level
-        );
-        setUserProgress(userLevelData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // useEffect(() => {
+  //   if(!userId) return;
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const userLevelData = await DataBaseService.getUserLevelProgress(
+  //         userId,
+  //         props.level
+  //       );
+  //       setUserProgress(userLevelData);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    fetchData();
-    const intervalId = setInterval(fetchData, 5000);
-    return () => clearInterval(intervalId);
-  }, [userId, props.level]);
+  //   fetchUserData();
+  //   const intervalId = setInterval(fetchUserData, 5000);
+  //   return () => clearInterval(intervalId);
+  // }, [userId, props.level]);
 
 
   function handleStartReview() {
@@ -66,8 +64,8 @@ function LevelContent(props: LevelContentProps) {
 
     for(let i = 0; i < kanjis.length; i++){
       const current = kanjis[i];
-      if(isReviewTimeReached(userLevelProgress![current.character].reviewTime)) {
-        kanjiGradeMap.set(current, userLevelProgress![current.character].kanjiGrade);
+      if(isReviewTimeReached(props.userLevelProgress![current.character].reviewTime)) {
+        kanjiGradeMap.set(current, props.userLevelProgress![current.character].kanjiGrade);
       }
     }
 
@@ -87,37 +85,47 @@ function LevelContent(props: LevelContentProps) {
     setSelectedKanji(kanji);
   }
 
-  function calculateLevelProgress(){
-    if(!userLevelProgress){
-      return 0;
+  function calculateLevelProgress() {
+    if (props.userLevelProgress) {
+      const amount = 100 / (5 * kanjis.length);
+
+      let percent = 0;
+
+      kanjis.forEach((kanji) => {
+        const progress = props.userLevelProgress![kanji.character] ?? null; 
+        percent += gradeAsNumber(progress ? progress.kanjiGrade : KanjiGrades.Unknown) * amount;
+      });
+
+      return percent;
     }
-    const amount = 100 / (5 * kanjis.length);
-
-    let percent = 0; 
-
-    kanjis.forEach((kanji) => {
-      percent += gradeAsNumber(userLevelProgress[kanji.character].kanjiGrade) * amount;
-    });
-
-    return percent;
+    return 0;
   }
 
+
   return (
-    <div className="level-content-container">
+    <section className="level-content-container">
       <div style={{ width: "100%" }}>
         <LinearProgressWithLabel value={calculateLevelProgress()} />
       </div>
       <div className="start-button-container">
         <StartButton onClick={handleStartReview}>
-          Start Review
+          Start Level Review
         </StartButton>
         <StartButton onClick={handleStartLevel}>
           Start Level Training
         </StartButton>
       </div>
-      <DisplayKanjis kanjis={kanjis} progress={userLevelProgress} onClick={handleKanjiClick} />
-      {selectedKanji ? <KanjiInfo kanji={selectedKanji} progress={userLevelProgress}/> : <></>}
-    </div>
+      <DisplayKanjis
+        kanjis={kanjis}
+        progress={props.userLevelProgress}
+        onClick={handleKanjiClick}
+      />
+      {selectedKanji ? (
+        <KanjiInfo kanji={selectedKanji} progress={props.userLevelProgress} />
+      ) : (
+        <></>
+      )}
+    </section>
   );
 }
   

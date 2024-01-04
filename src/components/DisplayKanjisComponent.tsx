@@ -6,7 +6,7 @@ import { KanjiGrades, KanjiLevelProgress } from "../utility/types";
 
 interface KanjiProps {
   kanjis: KanjiData[];
-  progress: KanjiLevelProgress | undefined;
+  progress: KanjiLevelProgress | null;
   onClick: (kanji: KanjiData) => void;
 }
 

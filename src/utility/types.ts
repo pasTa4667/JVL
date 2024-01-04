@@ -76,7 +76,7 @@ export function downGrade(grade: KanjiGrades): KanjiGrades {
 }
 
 /**
- * Represents the progress for a user in a level
+ * Represents the progress for a user in a level for one kanji
  */
 export interface KanjiLevelProgress {
   [character: string]: {
@@ -87,10 +87,3 @@ export interface KanjiLevelProgress {
   };
 }
 
-// All Colors used inside the project
-export const primaryBackgroundColor = '#E4D6A7';
-export const secondaryBackgroundColor = `#f7e2c8`;
-export const primaryTextColor = '#426A5A';
-export const primaryHighlightColor = 'indianred';
-export const secondaryHighlightColor = 'aquamarine';
-export const tertiaryHighlightColor = '#3C2416';

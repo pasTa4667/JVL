@@ -1,4 +1,5 @@
 import { Button, ToggleButton, ToggleButtonProps, styled, toggleButtonClasses, buttonClasses, ButtonProps } from "@mui/material";
+import { LevelProgressBar } from "./ProgressBar";
 
 //ToggleButton
 const SquareToggleButton = styled(ToggleButton)(({ theme }) => ({
@@ -77,14 +78,12 @@ export function StartButton(props: ButtonProps) {
 
 //LoginButton
 const LoginButtonStyled = styled(StandartButtonStyled)(() => ({
-  flex: "0 1 auto",
-  width: 80,
+  width: "90%",
   height: 40,
   fontSize: 16,
   fontWeight: "bold",
   boxShadow: "0 3px 6px rgba(0, 0, 0, 0.2)",
-  marginLeft: "auto",
-  marginRight: "10%",
+  margin: 10
 }));
 
 export function LoginButton(props: ButtonProps) {
@@ -107,3 +106,64 @@ export function PeekButton(props: ButtonProps) {
 export function NextButton(props: ButtonProps) {
   return <PeekButtonStyled sx={{ justifySelf: 'left' }} variant="contained" color="inherit" {...props}/>
 }
+
+//LevelButton
+const SideLevelButtonStyled = styled(StandartButtonStyled)(() => ({
+  width: "100%",
+  justifySelf: "center",
+  height: 50,
+  fontSize: 16,
+  fontWeight: "bold",
+  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+  margin: 5,
+  borderRadius: 10,
+  padding: 5,
+}));
+
+export function SideLevelButton(props: ButtonProps & {level: number, progress: number, clicked: boolean}) {
+  return (
+    <SideLevelButtonStyled
+      sx={{
+        //sx to use prop and hover does not work otherwise
+        [`&.${buttonClasses.colorInherit}`]: {
+          color: "#FFFFFF",
+          backgroundColor: props.clicked ? "#d9d9d9ab" : "#d9d9d94d",
+        },
+        "&:hover": {
+          backgroundColor: "#d9d9d9ab",
+        },
+      }}
+      variant="contained"
+      color="inherit"
+      {...props}
+    >
+      <div
+        className="some-stuff"
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 5,
+          fontSize: 22,
+          textAlign: "center",
+          backgroundColor: "#1e523d",
+        }}
+      >
+        {props.level}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          width: "calc(100% - 45px)", // sqaure width (40) + button padding (5) = 45px
+          height: "95%",
+          flexDirection: "column",
+          gap: 5,
+        }}
+      >
+        <div style={{ width: "100%", height: "40%" }}> Level {props.level}</div>
+        <LevelProgressBar value={props.progress} />
+      </div>
+    </SideLevelButtonStyled>
+  );
+}
+
+

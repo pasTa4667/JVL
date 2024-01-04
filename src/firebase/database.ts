@@ -48,7 +48,7 @@ class DatabaseService {
                 if (snapshot.exists()) {
                     resolve(snapshot.val());
                 } else {
-                    reject('Level Progress for the user could not be found.');
+                    resolve(null);
                 }
             } catch (error) {
                 reject('Error while retrieving Data.');

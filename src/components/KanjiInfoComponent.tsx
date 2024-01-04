@@ -5,7 +5,7 @@ import { convertTimestampToReadableTime } from "../utility/utility";
 
 interface InfoProps {
   kanji: KanjiData;
-  progress: KanjiLevelProgress | undefined;
+  progress: KanjiLevelProgress | null;
 }
 
 function KanjiInfo(props: InfoProps) {
@@ -130,9 +130,9 @@ function formatWanikaniInfo(kanji: KanjiData) {
 }
 
 function formatStats(progress: { kanjiGrade: KanjiGrades, 
-                                                   reviewTime: number, 
-                                                   correctCount?: number, 
-                                                   wrongCount?: number }) {
+                                 reviewTime: number, 
+                                 correctCount?: number, 
+                                 wrongCount?: number }) {
   return (
     <div className="kanji-info-container">
       <div className="info-description">

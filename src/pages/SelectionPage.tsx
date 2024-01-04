@@ -42,7 +42,7 @@ function SelectionPage() {
               Level {i + 1}
               <FontAwesomeIcon style={{paddingLeft: "calc(100% - 180px)"}} icon={levelClicked[i] ? faChevronUp : faChevronDown} />
             </LevelButton>
-            {levelClicked[i] ? <LevelContent key={i + 1} level={i + 1}/> : <div></div>}
+            {/* {levelClicked[i] ? <LevelContent key={i + 1} level={i + 1}/> : <div></div>} */}
           </>
         );
     }

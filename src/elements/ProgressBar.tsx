@@ -51,3 +51,21 @@ export function GradeProgressBarKanji(props:{ grade: KanjiGrades }) {
     </Box>
   );
 }
+
+export function LevelProgressBar(props: { value: number }) {
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <Box sx={{ width: "100%", mt: 1, mr: 1, ml: 1 }}>
+        <LinearProgress
+          sx={{
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+          }}
+          color="primary"
+          variant="determinate"
+          value={props.value}
+        />
+      </Box>
+    </Box>
+  );
+}
