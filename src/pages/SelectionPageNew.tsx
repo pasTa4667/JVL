@@ -6,6 +6,8 @@ import { LoginButton, SideLevelButton } from "../elements/Buttons";
 import LoginModal from "../modals/LoginModal";
 import { useUser } from "../elements/UserProvider";
 import { KanjiLevelProgress } from "../utility/types";
+import OverviewPanel from "../components/OverviewPanelComponent";
+import { useLocation } from "react-router-dom";
 
 function SelectionPage() {
   const totalLevelCount = 60;
@@ -14,28 +16,30 @@ function SelectionPage() {
   const [userLevelProgress, setUserProgress] = useState<(KanjiLevelProgress | null)[]>([]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
+  const location = useLocation();
+
   const { userId, logout } = useUser();
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) {
+      setUserProgress([]);
+      return;
+    }
     const fetchUserData = async () => {
       try {
-        for(let i = 1; i <= totalLevelCount; i++) {
-          userLevelProgress.push(await DataBaseService.getUserLevelProgress(
-            userId,
-            i
-          ));
+        const ulpPromises = [];
+        for (let i = 1; i <= totalLevelCount; i++) {
+          ulpPromises.push(DataBaseService.getUserLevelProgress(userId, i));
         }
+        const ulp = await Promise.all(ulpPromises);
+        setUserProgress(ulp);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchUserData();
-    //maybe later on
-    // const intervalId = setInterval(fetchUserData, 5000);
-    // return () => clearInterval(intervalId);
-  }, [userId]);
+  }, [userId, location.pathname]);
 
   function handleLevelClicked(level: number) {
     setLevelClicked(level);
@@ -79,9 +83,11 @@ function SelectionPage() {
         </div>
       </div>
       <div className="main-panels">
-        <div className="overview-panel"></div>
+        <div className="overview-panel">
+          <OverviewPanel userLevelProgress={userLevelProgress} />
+        </div>
         <div className="level-panel">
-            <LevelContent level={levelClicked} userLevelProgress={userLevelProgress[levelClicked]}/>
+          <LevelContent level={levelClicked} userLevelProgress={userLevelProgress[levelClicked]} />
         </div>
       </div>
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false) } />

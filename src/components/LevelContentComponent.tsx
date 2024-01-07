@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import ReadJson, { KanjiData } from "../logic/ReadJson";
 import { LinearProgressWithLabel } from "../elements/ProgressBars";
 import { useNavigate } from "react-router-dom";
-import DataBaseService from '../firebase/database';
-import DisplayKanjis from "./DisplayKanjisComponent";
+import DisplayAllKanjis from "./DisplayKanjisComponent";
 import "../media/MainPage.css";
 import KanjiInfo from "./KanjiInfoComponent";
 import { useUser } from "../elements/UserProvider";
 import { KanjiGrades, KanjiLevelProgress, gradeAsNumber } from "../utility/types";
 import { isReviewTimeReached } from "../utility/utility";
 import { StartButton } from "../elements/Buttons";
+import DataBaseService from "../firebase/database";
 
 interface LevelContentProps {
   level: number;
@@ -38,38 +38,21 @@ function LevelContent(props: LevelContentProps) {
   useEffect(() => {
     fetchKanji(props.level, false);
   }, [props.level]);
-
-  // useEffect(() => {
-  //   if(!userId) return;
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const userLevelData = await DataBaseService.getUserLevelProgress(
-  //         userId,
-  //         props.level
-  //       );
-  //       setUserProgress(userLevelData);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchUserData();
-  //   const intervalId = setInterval(fetchUserData, 5000);
-  //   return () => clearInterval(intervalId);
-  // }, [userId, props.level]);
-
+  
 
   function handleStartReview() {
     const kanjiGradeMap: Map<KanjiData, KanjiGrades> = new Map();
 
-    for(let i = 0; i < kanjis.length; i++){
-      const current = kanjis[i];
-      if(isReviewTimeReached(props.userLevelProgress![current.character].reviewTime)) {
-        kanjiGradeMap.set(current, props.userLevelProgress![current.character].kanjiGrade);
-      }
+    if (!props.userLevelProgress) {
+      return;
     }
 
-    navigate(`/main`, { state: { kanjiGradeMap: kanjiGradeMap, level: props.level } });
+    let index = 0;
+    for(let kanji in props.userLevelProgress) {
+      kanjiGradeMap.set(kanjis[index++], props.userLevelProgress[kanji].kanjiGrade);
+    }
+
+    navigate(`/main`, { state: { kanjiGradeMap: kanjiGradeMap } });
   }
 
   function handleStartLevel() {
@@ -78,7 +61,7 @@ function LevelContent(props: LevelContentProps) {
     kanjis.forEach((kanji) => {
       kanjiGradeMap.set(kanji, KanjiGrades.Unknown);
     });
-    navigate(`/main`, { state: { kanjiGradeMap: kanjiGradeMap, level: props.level } });
+    navigate(`/main`, { state: { kanjiGradeMap: kanjiGradeMap } });
   }
 
   function handleKanjiClick(kanji: KanjiData): void {
@@ -104,18 +87,18 @@ function LevelContent(props: LevelContentProps) {
 
   return (
     <section className="level-content-container">
-      <div style={{ width: "100%" }}>
-        <LinearProgressWithLabel value={calculateLevelProgress()} />
-      </div>
+      <LinearProgressWithLabel value={calculateLevelProgress()} level={props.level} />
       <div className="start-button-container">
+        {userId ? 
         <StartButton onClick={handleStartReview}>
           Start Level Review
         </StartButton>
+        : <></>}
         <StartButton onClick={handleStartLevel}>
           Start Level Training
         </StartButton>
       </div>
-      <DisplayKanjis
+      <DisplayAllKanjis
         kanjis={kanjis}
         progress={props.userLevelProgress}
         onClick={handleKanjiClick}

@@ -22,7 +22,6 @@ function MainPage() {
   const location = useLocation();
   const navigate = useNavigate();
   
-  const [level, setLevel] = useState(1);
   const [kanjiGradeMap, setKanjiGradeMap] = useState<Map<KanjiData, KanjiGrades>>(new Map());
 
   const { userId } = useUser();
@@ -31,7 +30,6 @@ function MainPage() {
 
   const init =() => {
     setKanjiGradeMap(location.state?.kanjiGradeMap || new Map());
-    setLevel(location.state?.level || 1);
     const kanjis = Array.from(kanjiGradeMap.keys());
   
     if(!kanjiProviderRef.current) {
@@ -77,7 +75,7 @@ function MainPage() {
         // udpate database immediately, in case user disonnects
         DataBaseService.saveUserKanjiGrade(
           userId,
-          level,
+          current.wk_level,
           current.character,
           kanjiGradeMap.get(current)!
           ).catch((error) => {
@@ -123,7 +121,7 @@ function MainPage() {
     // udpate immediately, in case the user disconnects 
     DataBaseService.saveUserKanjiGrade(
       userId,
-      level,
+      current.wk_level,
       current.character,
       kanjiGradeMap.get(current)!
     ).catch((error) => {

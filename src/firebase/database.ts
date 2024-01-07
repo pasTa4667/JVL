@@ -11,6 +11,12 @@ import { calculateNextReviewDate } from "../utility/utility";
 //            --> KanjiCharacter
 //                  --> reviewTime
 //                  --> kanjiGrade
+// and:
+// -kanjis
+//  --> character
+//      -> meanigns
+//      -> readings_on
+//      -> etc...
 class DatabaseService {
     private readonly database;
 
@@ -112,8 +118,25 @@ class DatabaseService {
         });
     }
 
+    async getKanjiData(kanji: string) {
+        return new Promise<KanjiData>(async (resolve, reject) => {
+            const kanjiRef = ref(this.database, `kanjis/${kanji}/`);
+            try {
+                const snapshot = await get(kanjiRef);
+    
+                if (snapshot.exists()) {
+                    resolve(snapshot.val());
+                } else {
+                    reject('Kanji could not be found.');
+                }
+            } catch (error) {
+                reject('Error while retrieving Data.');
+            }
+        });
+    }
+
     async addMockData(userId: string, level: number, kanjis: KanjiData[]) {
-        return new Promise<number>(async (resolve, reject) => {
+        return new Promise<number>(async () => {
             kanjis.forEach( async (kanji, index) => {
                 const userRef = ref(this.database, `users/${userId}/${level}/${kanji.character}`);
                 await set(userRef, { kanjiGrade: index % 2 === 0 ? KanjiGrades.Friendly : KanjiGrades.Colleague, reviewTime: calculateNextReviewDate(index + 12) })
@@ -123,6 +146,35 @@ class DatabaseService {
             });
         });
     }
+
+    async addKanjiData(kanjis: KanjiData[]) {
+        return new Promise<number>(async () => {
+            kanjis.forEach( async (kanji) => {
+                const userRef = ref(this.database, `kanjis/${kanji.character}/`);
+                await set(userRef, 
+                    { 
+                        character: kanji.character,
+                        strokes: kanji.strokes, 
+                        grade: kanji.grade, 
+                        freq: kanji.freq, 
+                        jlpt_old: kanji.jlpt_old, 
+                        jlpt_new: kanji.jlpt_new, 
+                        meanings: kanji.meanings, 
+                        readings_on: kanji.readings_on, 
+                        readings_kun: kanji.readings_kun,
+                        wk_level: kanji.wk_level, 
+                        wk_meanings: kanji.wk_meanings, 
+                        wk_readings_on: kanji.wk_readings_on, 
+                        wk_readings_kun: kanji.wk_readings_kun, 
+                        wk_radicals: kanji.wk_radicals
+                    })
+                    .catch((error) => {
+                        console.log('Error while saving Kanji Grade');
+                    });
+            });
+        });
+    }
+    
 }
 
 export default new DatabaseService();

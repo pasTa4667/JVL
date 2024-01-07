@@ -3,6 +3,7 @@ import { KanjiData } from "../logic/ReadJson";
 import "../media/SelectionPage.css";
 import { GradeProgressBarKanji } from "../elements/ProgressBars";
 import { KanjiGrades, KanjiLevelProgress } from "../utility/types";
+import { isReviewTimeReached } from "../utility/utility";
 
 interface KanjiProps {
   kanjis: KanjiData[];
@@ -11,7 +12,7 @@ interface KanjiProps {
 }
 
 
-function DisplayKanjis(props: KanjiProps) {
+function DisplayAllKanjis(props: KanjiProps) {
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const [grades, setGrades] = useState<KanjiGrades[]>([]);
 
@@ -49,4 +50,60 @@ function DisplayKanjis(props: KanjiProps) {
   return <div className="kanji-container">{elements}</div>;
 }
 
-export default DisplayKanjis; 
+export default DisplayAllKanjis;
+
+
+interface ReviewKanjiProps {
+  progressArray: (KanjiLevelProgress | null)[];
+}
+
+export function DisplayReviewKanjis(props: ReviewKanjiProps) {
+  const [grades, setGrades] = useState<KanjiGrades[]>([]);
+
+  useEffect(() => {
+    if (props.progressArray) {
+      const grades: KanjiGrades[] = [];
+
+      props.progressArray.forEach((progress) => {
+        if(progress) {
+          for (let character in progress) {
+            grades.push(progress[character].kanjiGrade);
+          }
+        }
+      });
+
+      setGrades(grades);
+    } else {
+      setGrades([]);
+    }
+  }, [props.progressArray]);
+
+  function fillElements() {
+    const elements: JSX.Element[] = [];
+    let index = 0;
+
+    props.progressArray.forEach((progress) => {
+      if(progress) {
+        for (let character in progress) {
+          if(isReviewTimeReached(progress[character].reviewTime)) {
+            elements.push(
+              <div>
+                <div key={index++} className={"kanji"}>
+                  {character}
+                </div>
+                <GradeProgressBarKanji
+                  grade={grades[index++] ?? KanjiGrades.Unknown}
+                />
+              </div>
+            );
+          }
+        }
+      }
+    });
+
+    return elements;
+
+  }
+
+  return <div className="kanji-container-2">{fillElements()}</div>;
+}

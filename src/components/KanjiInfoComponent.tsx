@@ -39,7 +39,7 @@ function KanjiInfo(props: InfoProps) {
   }
 
   return (
-    <div style={{ display: "flex", gap: "0px", flexDirection: "column" }}>
+    <div style={{ display: "flex", gap: "0px", flexDirection: "column", width: "100%" }}>
       <div className="info-header">
         <button
           className={"info-button " + (activeButton === 0 ? "active" : "")}

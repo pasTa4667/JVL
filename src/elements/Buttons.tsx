@@ -1,5 +1,8 @@
 import { Button, ToggleButton, ToggleButtonProps, styled, toggleButtonClasses, buttonClasses, ButtonProps } from "@mui/material";
-import { LevelProgressBar } from "./ProgressBar";
+import { LevelProgressBar } from "./ProgressBars";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 //ToggleButton
 const SquareToggleButton = styled(ToggleButton)(({ theme }) => ({
@@ -65,9 +68,8 @@ export function LevelButton(props: ButtonProps) {
 
 //StartButton
 const StartButtonStyled = styled(StandartButtonStyled)(() => ({ 
-  width: "50%",
-  height: 60,
-  maxWidth: 500,
+  flexGrow: 1,
+  height: 50,
   fontSize: 25,
   borderRadius: 5
 }));
@@ -163,6 +165,45 @@ export function SideLevelButton(props: ButtonProps & {level: number, progress: n
         <LevelProgressBar value={props.progress} />
       </div>
     </SideLevelButtonStyled>
+  );
+}
+
+//StartReviewButton
+const StartReviewButtonStyled = styled(StandartButtonStyled)(() => ({
+  width: "100%",
+  height: 50,
+  fontSize: 25,
+  borderRadius: 5,
+  display: "flex",
+  justifyContent: "space-between",
+}));
+
+export function StartReviewButton(props: ButtonProps & { onIconClick: () => void }) {
+  const [iconClicked, setIconClicked] = useState(false);
+  
+  function handleIconClicked(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+    e.stopPropagation();
+    props.onIconClick();
+    setIconClicked(!iconClicked);
+  }
+
+  return (
+    <StartReviewButtonStyled
+      sx={{
+        boxShadow: iconClicked
+          ? "none"
+          : "0 5px 8px rgba(0, 0, 0, 0.2)",
+        borderRadius: iconClicked
+          ? "5px 5px 0px 0px"
+          : "5px",
+      }}
+      variant="contained"
+      color="secondary"
+      {...props}
+    >
+      {props.value}{" "}
+      <FontAwesomeIcon icon={iconClicked ? faChevronUp : faChevronDown} onClick={(e) => handleIconClicked(e)}/>
+    </StartReviewButtonStyled>
   );
 }
 

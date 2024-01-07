@@ -13,14 +13,19 @@ interface UserContextProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(() => {
+    // Initialize the user ID from localStorage, if available
+    return localStorage.getItem("userId") || null;
+  });
 
   const login = (newUserId: string) => {
     setUserId(newUserId);
+    localStorage.setItem("userId", newUserId);
   };
 
   const logout = () => {
     setUserId(null);
+    localStorage.removeItem("userId");
   };
 
   const contextValue: UserContextProps = {
