@@ -85,7 +85,7 @@ function SelectionPage() {
       </div>
       <div className="main-panels">
         <div className="overview-panel">
-          <OverviewPanel userLevelProgress={userLevelProgress} />
+          <OverviewPanel userLevelProgress={userLevelProgress} onLevelClick={(level) => setLevelClicked(level)}/>
         </div>
         <div className="level-panel">
           <LevelContent level={levelClicked} userLevelProgress={userLevelProgress[levelClicked - 1]} />
