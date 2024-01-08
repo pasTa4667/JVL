@@ -4,6 +4,7 @@ interface SelectionProps {
     defaultType: string;
 }
 
+//Depricated
 function SelectionComponent(props: SelectionProps) {
 
     const selectionTypes = [

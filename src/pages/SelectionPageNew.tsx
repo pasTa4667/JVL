@@ -8,6 +8,7 @@ import { useUser } from "../elements/UserProvider";
 import { KanjiLevelProgress } from "../utility/types";
 import OverviewPanel from "../components/OverviewPanelComponent";
 import { useLocation } from "react-router-dom";
+import { calculateLevelProgress } from "../utility/utility";
 
 function SelectionPage() {
   const totalLevelCount = 60;
@@ -29,7 +30,7 @@ function SelectionPage() {
       try {
         const ulpPromises = [];
         for (let i = 1; i <= totalLevelCount; i++) {
-          ulpPromises.push(DataBaseService.getUserLevelProgress(userId, i));
+          ulpPromises.push(await DataBaseService.getUserLevelProgress(userId, i));
         }
         const ulp = await Promise.all(ulpPromises);
         setUserProgress(ulp);
@@ -53,7 +54,7 @@ function SelectionPage() {
         <>
           <SideLevelButton
             level={i}
-            progress={30}
+            progress={calculateLevelProgress(userLevelProgress[i - 1])}
             onClick={() => handleLevelClicked(i)}
             clicked={levelClicked === i}
           />
@@ -87,7 +88,7 @@ function SelectionPage() {
           <OverviewPanel userLevelProgress={userLevelProgress} />
         </div>
         <div className="level-panel">
-          <LevelContent level={levelClicked} userLevelProgress={userLevelProgress[levelClicked]} />
+          <LevelContent level={levelClicked} userLevelProgress={userLevelProgress[levelClicked - 1]} />
         </div>
       </div>
       <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false) } />

@@ -7,7 +7,7 @@ import "../media/MainPage.css";
 import KanjiInfo from "./KanjiInfoComponent";
 import { useUser } from "../elements/UserProvider";
 import { KanjiGrades, KanjiLevelProgress, gradeAsNumber } from "../utility/types";
-import { isReviewTimeReached } from "../utility/utility";
+import { isReviewTimeReached, calculateLevelProgress } from "../utility/utility";
 import { StartButton } from "../elements/Buttons";
 import DataBaseService from "../firebase/database";
 
@@ -68,26 +68,9 @@ function LevelContent(props: LevelContentProps) {
     setSelectedKanji(kanji);
   }
 
-  function calculateLevelProgress() {
-    if (props.userLevelProgress) {
-      const amount = 100 / (5 * kanjis.length);
-
-      let percent = 0;
-
-      kanjis.forEach((kanji) => {
-        const progress = props.userLevelProgress![kanji.character] ?? null; 
-        percent += gradeAsNumber(progress ? progress.kanjiGrade : KanjiGrades.Unknown) * amount;
-      });
-
-      return percent;
-    }
-    return 0;
-  }
-
-
   return (
     <section className="level-content-container">
-      <LinearProgressWithLabel value={calculateLevelProgress()} level={props.level} />
+      <LinearProgressWithLabel value={calculateLevelProgress(props.userLevelProgress)} level={props.level} />
       <div className="start-button-container">
         {userId ? 
         <StartButton onClick={handleStartReview}>

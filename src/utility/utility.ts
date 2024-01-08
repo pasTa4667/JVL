@@ -1,3 +1,5 @@
+import { KanjiGrades, KanjiLevelProgress, gradeAsNumber } from "./types";
+
 /**
  * Adds the hours given to the current time and returns it in milliseconds.
  */
@@ -26,3 +28,21 @@ export function convertTimestampToReadableTime(timestamp: number): string {
 export function isReviewTimeReached(timestamp: number): boolean {
   return  timestamp - new Date().getTime() <= 0;
 }
+
+/**
+ * Determines the the progress of a level in percentage
+ */
+export function calculateLevelProgress(userProgress: KanjiLevelProgress | null) {
+    if (userProgress) {
+      let kanjiCount = 0;
+      let progressCount = 0;
+      for(let kanji in userProgress) {
+        kanjiCount++;
+        const progress = userProgress![kanji] ?? null; 
+        progressCount += gradeAsNumber(progress ? progress.kanjiGrade : KanjiGrades.Unknown);
+      }
+
+      return (progressCount * 100) / (kanjiCount * 5);
+    }
+    return 0;
+  }
