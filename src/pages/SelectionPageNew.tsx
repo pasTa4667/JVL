@@ -9,6 +9,7 @@ import { KanjiLevelProgress } from "../utility/types";
 import OverviewPanel from "../components/OverviewPanelComponent";
 import { useLocation } from "react-router-dom";
 import { calculateLevelProgress } from "../utility/utility";
+import SearchComponent from "../components/SearchComponent";
 
 function SelectionPage() {
   const totalLevelCount = 60;
@@ -73,12 +74,16 @@ function SelectionPage() {
     }
   }
 
+  function handleSearchChange(input: string) {
+  }
+
   return (
     <div className="selection-page-new">
       <div className="side-panel">
         <LoginButton onClick={handleLoginAndOut}>
           {userId ? "Logout" : "Login"}
         </LoginButton>
+        <SearchComponent onChange={(input) => handleSearchChange(input)}/>
         <div className="level-selection">
           {renderLevels()}
         </div>
