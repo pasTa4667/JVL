@@ -8,7 +8,7 @@ import { useUser } from "../elements/UserProvider";
 import { KanjiLevelProgress } from "../utility/types";
 import OverviewPanel from "../components/OverviewPanelComponent";
 import { useLocation } from "react-router-dom";
-import { calculateLevelProgress } from "../utility/utility";
+import { calculateLevelProgress, translateToNumbers } from "../utility/utility";
 import SearchComponent from "../components/SearchComponent";
 
 function SelectionPage() {
@@ -17,6 +17,7 @@ function SelectionPage() {
   const [levelClicked, setLevelClicked] = useState(1);
   const [userLevelProgress, setUserProgress] = useState<(KanjiLevelProgress | null)[]>([]);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
   const location = useLocation();
 
@@ -48,20 +49,37 @@ function SelectionPage() {
   }
 
   const renderLevels = () => {
-    const levels: JSX.Element[] = [];
+    // const levels: JSX.Element[] = [];
 
-    for (let i = 1; i <= totalLevelCount; i++) {
-      levels.push(
-        <>
-          <SideLevelButton
-            level={i}
-            progress={calculateLevelProgress(userLevelProgress[i - 1])}
-            onClick={() => handleLevelClicked(i)}
-            clicked={levelClicked === i}
-          />
-        </>
-      );
-    }
+    // for (let i = 1; i <= totalLevelCount; i++) {
+    //   levels.push(
+    //     <>
+    //       <SideLevelButton
+    //         level={i}
+    //         progress={calculateLevelProgress(userLevelProgress[i - 1])}
+    //         onClick={() => handleLevelClicked(i)}
+    //         clicked={levelClicked === i}
+    //       />
+    //     </>
+    //   );
+    // }
+
+    const results =
+      translateToNumbers(searchInput) ??
+      Array.from({ length: totalLevelCount }, (_, i) => i + 1);
+    console.log(
+      "results",
+      results
+    );
+    const levels = results.map((i) => (
+      <SideLevelButton
+        key={i}
+        level={i}
+        progress={calculateLevelProgress(userLevelProgress[i - 1])}
+        onClick={() => handleLevelClicked(i)}
+        clicked={levelClicked === i}
+      />
+    ));
 
     return levels;
   } 
@@ -75,6 +93,7 @@ function SelectionPage() {
   }
 
   function handleSearchChange(input: string) {
+    setSearchInput(input);
   }
 
   return (

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import SearchField from "../elements/SearchField";
 
 interface SearchProps {

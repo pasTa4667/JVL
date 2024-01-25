@@ -1,4 +1,4 @@
-import { KanjiGrades, KanjiLevelProgress, gradeAsNumber } from "./types";
+import { KanjiGrades, KanjiLevelProgress, gradeAsNumber, oneToSixty } from "./types";
 
 /**
  * Adds the hours given to the current time and returns it in milliseconds.
@@ -33,16 +33,33 @@ export function isReviewTimeReached(timestamp: number): boolean {
  * Determines the the progress of a level in percentage
  */
 export function calculateLevelProgress(userProgress: KanjiLevelProgress | null) {
-    if (userProgress) {
-      let kanjiCount = 0;
-      let progressCount = 0;
-      for(let kanji in userProgress) {
-        kanjiCount++;
-        const progress = userProgress![kanji] ?? null; 
-        progressCount += gradeAsNumber(progress ? progress.kanjiGrade : KanjiGrades.Unknown);
-      }
-
-      return (progressCount * 100) / (kanjiCount * 5);
+  if (userProgress) {
+    let kanjiCount = 0;
+    let progressCount = 0;
+    for(let kanji in userProgress) {
+      kanjiCount++;
+      const progress = userProgress![kanji] ?? null; 
+      progressCount += gradeAsNumber(progress ? progress.kanjiGrade : KanjiGrades.Unknown);
     }
-    return 0;
+
+    return (progressCount * 100) / (kanjiCount * 5);
   }
+  return 0;
+}
+
+
+/**
+ * Returns the possible numbers from a string input (japanese and english)
+ */
+export function translateToNumbers(num: string) {
+  if(!num) return;
+
+  const numbers  = new Set<number>();
+  oneToSixty.forEach((writings) => writings.filter((writing) => {
+    if(writing.includes(num)) {
+      numbers.add(Number(writings[0]));
+    }
+  }));
+
+  return Array.from(numbers).sort();
+}
